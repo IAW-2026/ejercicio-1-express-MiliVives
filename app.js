@@ -24,6 +24,11 @@ app.get('/contacto', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'contacto.html'));
 });
 
+// Ruta /agencia - Página de Agencia Web Moderna
+app.get('/agencia', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'agencia.html'));
+});
+
 // Middleware básico para manejo de errores
 app.use((err, req, res, next) => {
   console.error(err.stack);

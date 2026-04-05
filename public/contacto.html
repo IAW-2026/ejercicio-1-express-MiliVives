@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Express Rutas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <ul>
+                <li><a href="/" class="nav-link">🏠 Inicio</a></li>
+                <li><a href="/acerca" class="nav-link">ℹ️ Acerca</a></li>
+                <li><a href="/contacto" class="nav-link active">📬 Contacto</a></li>
+            </ul>
+        </nav>
+
+        <h1>Contacto</h1>
+        
+        <div class="content">
+            <h2>Ponte en Contacto</h2>
+            <p>Si tienes preguntas sobre este proyecto o deseas aprender más sobre Express.js, 
+               completa el formulario a continuación.</p>
+        </div>
+
+        <div class="form-container">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="asunto">Asunto:</label>
+                    <input type="text" id="asunto" name="asunto" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer;">
+                    📧 Enviar Mensaje
+                </button>
+            </form>
+
+            <div id="formMessage" class="form-message"></div>
+        </div>
+
+        <div class="content">
+            <h2>Información de Contacto Directa</h2>
+            <div class="contact-info">
+                <p><strong>📧 Email:</strong> <a href="mailto:info@exprestroutas.com">info@exprestroutas.com</a></p>
+                <p><strong>📱 Teléfono:</strong> +34 912 345 678</p>
+                <p><strong>📍 Ubicación:</strong> Madrid, España</p>
+                <p><strong>🕒 Horario:</strong> Lunes a Viernes, 9:00 - 18:00</p>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <a href="/acerca" class="btn btn-primary">← Volver a Acerca</a>
+            <a href="/" class="btn btn-secondary">Ir al Inicio →</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

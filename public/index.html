@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Express Rutas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <ul>
+                <li><a href="/" class="nav-link active">🏠 Inicio</a></li>
+                <li><a href="/acerca" class="nav-link">ℹ️ Acerca</a></li>
+                <li><a href="/contacto" class="nav-link">📬 Contacto</a></li>
+            </ul>
+        </nav>
+
+        <h1>Bienvenido a Express con Múltiples Rutas</h1>
+        <p>Este proyecto demuestra cómo manejar diferentes rutas en un servidor Express.</p>
+        
+        <div class="content">
+            <h2>¿Qué es una Ruta en Express?</h2>
+            <p>Una ruta define cómo responde la aplicación Express a una solicitud de cliente hacia un endpoint 
+               específico. Cada ruta puede devolver contenido HTML diferente.</p>
+        </div>
+        
+        <div class="features">
+            <h3>📍 Rutas disponibles en este proyecto:</h3>
+            <ul>
+                <li>✅ <strong>/ (Inicio)</strong> - Página principal (estás aquí)</li>
+                <li>✅ <strong>/acerca</strong> - Información sobre el sitio</li>
+                <li>✅ <strong>/contacto</strong> - Formulario de contacto</li>
+            </ul>
+        </div>
+        
+        <div class="interactive">
+            <h3>Prueba la interactividad:</h3>
+            <button id="miBoton">Haz clic aquí</button>
+            <p id="mensaje"></p>
+        </div>
+
+        <div class="navigation-buttons">
+            <a href="/acerca" class="btn btn-primary">Conocer más →</a>
+            <a href="/contacto" class="btn btn-secondary">Contactar →</a>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

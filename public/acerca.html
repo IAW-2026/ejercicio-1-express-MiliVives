@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerca de - Express Rutas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <ul>
+                <li><a href="/" class="nav-link">🏠 Inicio</a></li>
+                <li><a href="/acerca" class="nav-link active">ℹ️ Acerca</a></li>
+                <li><a href="/contacto" class="nav-link">📬 Contacto</a></li>
+            </ul>
+        </nav>
+
+        <h1>Acerca de Este Sitio</h1>
+        
+        <div class="content">
+            <h2>¿Quién Somos?</h2>
+            <p>
+                Este es un proyecto educativo desarrollado con <strong>Express.js</strong> para aprender 
+                a manejar múltiples rutas y entregar contenido HTML diferente en cada una de ellas.
+            </p>
+        </div>
+
+        <div class="content">
+            <h2>Objetivo del Proyecto</h2>
+            <ul style="padding-left: 20px;">
+                <li>✅ Comprender cómo funcionan las rutas en Express</li>
+                <li>✅ Servir archivos estáticos (HTML, CSS, JavaScript)</li>
+                <li>✅ Conectar múltiples páginas HTML entre sí</li>
+                <li>✅ Practicar navegación web básica</li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <h2>Tecnologías Utilizadas</h2>
+            <div class="tech-stack">
+                <span class="badge">Node.js</span>
+                <span class="badge">Express.js</span>
+                <span class="badge">HTML5</span>
+                <span class="badge">CSS3</span>
+                <span class="badge">JavaScript</span>
+            </div>
+        </div>
+
+        <div class="content info-box">
+            <h3>Estructura del Proyecto</h3>
+            <p>
+                📁 <strong>public/</strong> - Carpeta de archivos estáticos<br>
+                &nbsp;&nbsp;├── index.html (Página Principal)<br>
+                &nbsp;&nbsp;├── acerca.html (Esta página)<br>
+                &nbsp;&nbsp;├── contacto.html (Página de Contacto)<br>
+                &nbsp;&nbsp;├── styles.css (Estilos compartidos)<br>
+                &nbsp;&nbsp;└── script.js (JavaScript compartido)<br>
+                📄 <strong>app.js</strong> - Servidor Express con rutas
+            </p>
+        </div>
+
+        <div class="navigation-buttons">
+            <a href="/" class="btn btn-primary">← Volver al Inicio</a>
+            <a href="/contacto" class="btn btn-secondary">Ir a Contacto →</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

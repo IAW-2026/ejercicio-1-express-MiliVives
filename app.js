@@ -5,7 +5,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Ruta raíz
+// Servir archivos estáticos desde la carpeta "public"
+app.use(express.static('public'));
+
+// Ruta raíz (alternativa si no hay index.html)
 app.get('/', (req, res) => {
   res.send('Hola mundo!');
 });

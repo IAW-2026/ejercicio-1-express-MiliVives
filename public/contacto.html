@@ -16,57 +16,50 @@
             </ul>
         </nav>
 
-        <h1>Contacto</h1>
+        <h1>Formulario de Contacto</h1>
         
         <div class="content">
-            <h2>Ponte en Contacto</h2>
-            <p>Si tienes preguntas sobre este proyecto o deseas aprender más sobre Express.js, 
-               completa el formulario a continuación.</p>
+            <h2>Envía tu Mensaje</h2>
+            <p>Completa el formulario a continuación y presiona "Enviar". Los datos serán procesados por el servidor Express mediante POST.</p>
         </div>
 
         <div class="form-container">
-            <form id="contactForm">
+            <!-- Formulario HTML puro con método POST -->
+            <form action="/contacto" method="POST">
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="asunto">Asunto:</label>
-                    <input type="text" id="asunto" name="asunto" required>
+                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
                 </div>
 
                 <div class="form-group">
                     <label for="mensaje">Mensaje:</label>
-                    <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
+                    <textarea id="mensaje" name="mensaje" placeholder="Tu mensaje aquí..." rows="6" required></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer;">
                     📧 Enviar Mensaje
                 </button>
             </form>
-
-            <div id="formMessage" class="form-message"></div>
         </div>
 
-        <div class="content">
-            <h2>Información de Contacto Directa</h2>
-            <div class="contact-info">
-                <p><strong>📧 Email:</strong> <a href="mailto:info@exprestroutas.com">info@exprestroutas.com</a></p>
-                <p><strong>📱 Teléfono:</strong> +34 912 345 678</p>
-                <p><strong>📍 Ubicación:</strong> Madrid, España</p>
-                <p><strong>🕒 Horario:</strong> Lunes a Viernes, 9:00 - 18:00</p>
-            </div>
+        <div class="content info-box">
+            <h3>🔍 Cómo Funciona:</h3>
+            <ol style="padding-left: 20px; line-height: 1.8;">
+                <li><strong>HTML Form:</strong> El formulario usa <code>method="POST"</code> y <code>action="/contacto"</code></li>
+                <li><strong>Envío:</strong> Al hacer submit, los datos se envían al servidor</li>
+                <li><strong>Procesamiento:</strong> Express recibe los datos en <code>req.body</code></li>
+                <li><strong>Respuesta:</strong> El servidor devuelve una página HTML mostrando lo que recibió</li>
+            </ol>
         </div>
 
         <div class="navigation-buttons">
-            <a href="/acerca" class="btn btn-primary">← Volver a Acerca</a>
-            <a href="/" class="btn btn-secondary">Ir al Inicio →</a>
+            <a href="/" class="btn btn-secondary">← Volver al Inicio</a>
+            <a href="/acerca" class="btn btn-secondary">Ir a Acerca →</a>
         </div>
     </div>
 

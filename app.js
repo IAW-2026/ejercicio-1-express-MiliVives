@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 
 // Middleware
@@ -8,9 +9,19 @@ app.use(express.urlencoded({ extended: true }));
 // Servir archivos estáticos desde la carpeta "public"
 app.use(express.static('public'));
 
-// Ruta raíz (alternativa si no hay index.html)
+// Ruta raíz - Página de Inicio
 app.get('/', (req, res) => {
-  res.send('Hola mundo!');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Ruta /acerca - Página de Información
+app.get('/acerca', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'acerca.html'));
+});
+
+// Ruta /contacto - Página de Contacto
+app.get('/contacto', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'contacto.html'));
 });
 
 // Middleware básico para manejo de errores
@@ -23,4 +34,4 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor ejecutándose en el puerto ${PORT}`);
-}); 
+});

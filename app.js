@@ -2,17 +2,38 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
+// Variable global para contar visitas a la ruta raíz
+let contadorVisitas = 0;
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos desde la carpeta "public"
-app.use(express.static('public'));
+
 
 // Ruta raíz - Página de Inicio
 app.get('/', (req, res) => {
+  // Incrementar contador cada vez que se accede
+  contadorVisitas++;
+
+  // Log para debugging
+  console.log(`🏠 Visita #${contadorVisitas} a la página principal`);
+
+  // Servir el archivo HTML estático
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+// Ruta API GET para obtener el contador de visitas
+app.get('/api/contador', (req, res) => {
+  console.log(`📊 API llamada - Contador actual: ${contadorVisitas}`);
+  res.json({
+    visitas: contadorVisitas,
+    mensaje: `Esta página ha sido visitada ${contadorVisitas} ${contadorVisitas === 1 ? 'vez' : 'veces'} desde que se inició el servidor.`
+  });
+});
+
+// Servir archivos estáticos desde la carpeta "public"
+app.use(express.static('public'));
 
 // Ruta /acerca - Página de Información
 app.get('/acerca', (req, res) => {
@@ -136,9 +157,11 @@ app.post('/contacto', (req, res) => {
   `);
 });
 
-// Ruta /agencia - Página de Agencia Web Moderna
-app.get('/agencia', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'agencia.html'));
+// Ruta /reset-contador - Para reiniciar el contador (solo para demo)
+app.get('/reset-contador', (req, res) => {
+  contadorVisitas = 0;
+  console.log('🔄 Contador de visitas reseteado a 0');
+  res.redirect('/');
 });
 
 // Middleware básico para manejo de errores

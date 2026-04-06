@@ -1,6 +1,26 @@
 // Archivo JavaScript para interactividad del cliente
 console.log('✅ Script.js cargado correctamente desde archivos estáticos');
 
+// ===== CONTADOR DE VISITAS =====
+async function cargarContador() {
+    try {
+        const respuesta = await fetch('/api/contador');
+        const datos = await respuesta.json();
+
+        // Actualizar el contador en la página
+        document.getElementById('numero-visitas').textContent = datos.visitas;
+        document.getElementById('mensaje-visitas').textContent = datos.mensaje;
+
+        console.log('📊 Contador cargado:', datos.visitas, 'visitas');
+    } catch (error) {
+        console.error('❌ Error al cargar el contador:', error);
+        document.getElementById('numero-visitas').textContent = 'Error';
+        document.getElementById('mensaje-visitas').textContent = 'No se pudo cargar la información del contador.';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', cargarContador);
+
 // ===== CONTADOR DE CLICS (Página de Inicio) =====
 const miBoton = document.getElementById('miBoton');
 const mensajeDiv = document.getElementById('mensaje');
@@ -84,8 +104,10 @@ if (contactForm) {
 console.log('🌐 === SISTEMA DE RUTAS EXPRESS ===');
 console.log('📄 Archivo: script.js (compartido en todas las páginas)');
 console.log('📍 Rutas implementadas:');
-console.log('   / - Página de Inicio');
+console.log('   / - Página de Inicio (con contador de visitas)');
 console.log('   /acerca - Información sobre el sitio');
 console.log('   /contacto - Formulario de contacto');
+console.log('   /agencia - Página de agencia moderna');
+console.log('   /reset-contador - Reset del contador (demo)');
 console.log('🎯 Middleware: app.use(express.static("public"))');
-console.log('═══════════════════════════════════════');
+console.log('📊 Contador de visitas: Variable global en memoria del servidor');

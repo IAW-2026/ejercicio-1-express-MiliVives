@@ -210,6 +210,45 @@ app.post('/contacto', (req, res) => {
   `);
 });
 
+// Nueva ruta API POST /api/contacto - Procesar datos del formulario con fetch
+app.post('/api/contacto', (req, res) => {
+  // Obtener datos del JSON enviado por fetch
+  const { nombre, email, mensaje } = req.body;
+
+  // Validar que los datos no estén vacíos
+  if (!nombre || !email || !mensaje) {
+    return res.status(400).json({
+      success: false,
+      error: 'Campos incompletos',
+      mensaje: 'Por favor, completa todos los campos del formulario.',
+      campos_requeridos: ['nombre', 'email', 'mensaje']
+    });
+  }
+
+  // Procesar datos correctamente
+  console.log('📨 API Contacto - Datos recibidos:');
+  console.log('  Nombre:', nombre);
+  console.log('  Email:', email);
+  console.log('  Mensaje:', mensaje);
+  console.log('  Hora:', new Date().toLocaleString());
+
+  // Crear mensaje personalizado basado en los datos
+  const mensajePersonalizado = `¡Hola ${nombre}! Gracias por contactarnos desde ${email}. Hemos recibido tu mensaje y te responderemos pronto. Tu mensaje fue: "${mensaje.substring(0, 50)}${mensaje.length > 50 ? '...' : ''}"`;
+
+  // Responder con JSON
+  res.json({
+    success: true,
+    mensaje: mensajePersonalizado,
+    datos_recibidos: {
+      nombre,
+      email,
+      longitud_mensaje: mensaje.length,
+      fecha_recepcion: new Date().toISOString()
+    },
+    timestamp: Date.now()
+  });
+});
+
 // Nueva ruta /encuesta GET - mostrar formulario de selección
 app.get('/encuesta', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'encuesta.html'));

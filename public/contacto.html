@@ -24,8 +24,8 @@
         </div>
 
         <div class="form-container">
-            <!-- Formulario HTML puro con método POST -->
-            <form action="/contacto" method="POST">
+            <!-- Formulario que usa fetch para enviar datos -->
+            <form id="contacto-form">
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
@@ -41,19 +41,23 @@
                     <textarea id="mensaje" name="mensaje" placeholder="Tu mensaje aquí..." rows="6" required></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer;">
+                <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer;" id="submit-btn">
                     📧 Enviar Mensaje
                 </button>
             </form>
+
+            <!-- Contenedor para mostrar la respuesta del servidor -->
+            <div id="respuesta-servidor" style="display: none; margin-top: 2rem;"></div>
         </div>
 
         <div class="content info-box">
-            <h3>🔍 Cómo Funciona:</h3>
+            <h3>🔍 Cómo Funciona Ahora:</h3>
             <ol style="padding-left: 20px; line-height: 1.8;">
-                <li><strong>HTML Form:</strong> El formulario usa <code>method="POST"</code> y <code>action="/contacto"</code></li>
-                <li><strong>Envío:</strong> Al hacer submit, los datos se envían al servidor</li>
-                <li><strong>Procesamiento:</strong> Express recibe los datos en <code>req.body</code></li>
-                <li><strong>Respuesta:</strong> El servidor devuelve una página HTML mostrando lo que recibió</li>
+                <li><strong>JavaScript fetch:</strong> El formulario usa <code>fetch()</code> para enviar datos como JSON</li>
+                <li><strong>Envío asíncrono:</strong> Los datos se envían a <code>/api/contacto</code> sin recargar la página</li>
+                <li><strong>Procesamiento:</strong> Express recibe los datos JSON en <code>req.body</code></li>
+                <li><strong>Respuesta:</strong> El servidor devuelve un mensaje personalizado en JSON</li>
+                <li><strong>UI dinámica:</strong> La respuesta se muestra en la misma página sin navegación</li>
             </ol>
         </div>
 
@@ -63,6 +67,114 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        /**
+         * Función para enviar el formulario usando fetch
+         */
+        async function enviarFormulario(event) {
+            event.preventDefault(); // Prevenir el envío tradicional del formulario
+
+            const submitBtn = document.getElementById('submit-btn');
+            const respuestaDiv = document.getElementById('respuesta-servidor');
+
+            // Obtener los valores del formulario
+            const nombre = document.getElementById('nombre').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mensaje = document.getElementById('mensaje').value.trim();
+
+            // Validación básica del lado cliente
+            if (!nombre || !email || !mensaje) {
+                mostrarRespuesta('❌ Por favor, completa todos los campos.', 'error');
+                return;
+            }
+
+            // Deshabilitar el botón mientras se envía
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Enviando...';
+
+            try {
+                console.log('📡 Enviando datos a /api/contacto...');
+
+                // Enviar datos usando fetch
+                const response = await fetch('/api/contacto', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nombre,
+                        email,
+                        mensaje
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Éxito: mostrar mensaje personalizado
+                    mostrarRespuesta(data.mensaje, 'success');
+
+                    // Limpiar el formulario
+                    document.getElementById('contacto-form').reset();
+
+                    console.log('✅ Respuesta del servidor:', data);
+                } else {
+                    // Error del servidor
+                    mostrarRespuesta(data.mensaje || 'Error desconocido del servidor', 'error');
+                    console.error('❌ Error del servidor:', data);
+                }
+
+            } catch (error) {
+                // Error de conexión
+                mostrarRespuesta('❌ Error de conexión. Verifica que el servidor esté ejecutándose.', 'error');
+                console.error('❌ Error de fetch:', error);
+            } finally {
+                // Rehabilitar el botón
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📧 Enviar Mensaje';
+            }
+        }
+
+        /**
+         * Función para mostrar la respuesta del servidor en la página
+         */
+        function mostrarRespuesta(mensaje, tipo) {
+            const respuestaDiv = document.getElementById('respuesta-servidor');
+
+            // Determinar colores según el tipo
+            const colores = {
+                success: { bg: '#c6f6d5', border: '#48bb78', icon: '✅' },
+                error: { bg: '#fed7d7', border: '#fc8181', icon: '❌' }
+            };
+
+            const color = colores[tipo] || colores.error;
+
+            // Crear el HTML de la respuesta
+            respuestaDiv.innerHTML = `
+                <div style="
+                    background-color: ${color.bg};
+                    border-left: 4px solid ${color.border};
+                    padding: 1.5rem;
+                    border-radius: 8px;
+                    margin-top: 1rem;
+                ">
+                    <h3 style="margin: 0 0 1rem 0; color: ${color.border};">${color.icon} Respuesta del Servidor</h3>
+                    <p style="margin: 0; line-height: 1.6;">${mensaje}</p>
+                </div>
+            `;
+
+            // Mostrar el contenedor
+            respuestaDiv.style.display = 'block';
+
+            // Hacer scroll hasta la respuesta
+            respuestaDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Agregar event listener al formulario cuando la página carga
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contacto-form');
+            form.addEventListener('submit', enviarFormulario);
+        });
+    </script>
 </body>
 </html>

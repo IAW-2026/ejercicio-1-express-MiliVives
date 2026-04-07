@@ -255,6 +255,41 @@ code {
     border: 2px solid #48bb78;
 }
 
+.messages-list {
+    margin: 30px 0;
+    display: grid;
+    gap: 1rem;
+}
+
+.message-card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.08);
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.message-header small {
+    color: #667eea;
+    font-size: 0.9em;
+}
+
+.message-card p {
+    margin: 0;
+    line-height: 1.7;
+    font-size: 1em;
+    color: #333;
+}
+
+
 .form-message.error {
     background-color: #fed7d7;
     color: #742a2a;

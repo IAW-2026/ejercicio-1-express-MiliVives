@@ -5,6 +5,9 @@ const app = express();
 // Variable global para contar visitas a la ruta raíz
 let contadorVisitas = 0;
 
+// Lista en memoria de mensajes enviados desde el formulario de contacto
+const mensajesEnMemoria = [];
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -82,14 +85,32 @@ app.post('/contacto', (req, res) => {
   console.log('  Mensaje:', mensaje);
   console.log('  Hora:', new Date().toLocaleString());
 
-  // Enviar respuesta HTML con los datos recibidos
+  // Guardar el mensaje en memoria
+  mensajesEnMemoria.push({
+    nombre,
+    email,
+    mensaje,
+    fecha: new Date().toLocaleString()
+  });
+
+  const mensajesHtml = mensajesEnMemoria.map((item, index) => `
+            <div class="message-card">
+              <div class="message-header">
+                <span><strong>${item.nombre}</strong> dijo:</span>
+                <small>${item.fecha}</small>
+              </div>
+              <p>${item.mensaje}</p>
+            </div>
+          `).join('');
+
+  // Enviar respuesta HTML con todos los mensajes acumulados
   res.send(`
     <!DOCTYPE html>
     <html lang="es">
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Mensaje Enviado - Express Contacto</title>
+      <title>Mensajes Guardados - Express Contacto</title>
       <link rel="stylesheet" href="styles.css">
     </head>
     <body>
@@ -98,56 +119,24 @@ app.post('/contacto', (req, res) => {
           <ul>
             <li><a href="/" class="nav-link">🏠 Inicio</a></li>
             <li><a href="/acerca" class="nav-link">ℹ️ Acerca</a></li>
-            <li><a href="/contacto" class="nav-link">📬 Contacto</a></li>
+            <li><a href="/contacto" class="nav-link active">📬 Contacto</a></li>
             <li><a href="/encuesta" class="nav-link">❓ Encuesta</a></li>
           </ul>
         </nav>
 
-        <h1>✅ ¡Mensaje Enviado Exitosamente!</h1>
+        <h1>✅ Mensaje Guardado</h1>
         
         <div class="content" style="background-color: #c6f6d5; border-left-color: #48bb78;">
-          <h2>Datos Recibidos por el Servidor</h2>
-          <p>A continuación se muestra la información que procesó Express desde tu formulario:</p>
+          <h2>Mostrando todos los mensajes</h2>
+          <p>El servidor guarda tus respuestas en memoria y las muestra juntas en cada envío.</p>
         </div>
 
-        <div class="form-container">
-          <div style="background-color: #f0f7ff; padding: 2rem; border-radius: 10px; border-left: 4px solid #4299e1;">
-            <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid #cbd5e0;">
-              <strong style="color: #2d3748;">👤 Nombre:</strong><br>
-              <code style="background-color: #e2e8f0; padding: 8px 12px; border-radius: 5px; display: inline-block; margin-top: 0.5rem;">
-                ${nombre}
-              </code>
-            </div>
-
-            <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid #cbd5e0;">
-              <strong style="color: #2d3748;">📧 Email:</strong><br>
-              <code style="background-color: #e2e8f0; padding: 8px 12px; border-radius: 5px; display: inline-block; margin-top: 0.5rem;">
-                ${email}
-              </code>
-            </div>
-
-            <div style="margin-bottom: 1rem;">
-              <strong style="color: #2d3748;">💬 Mensaje:</strong><br>
-              <code style="background-color: #e2e8f0; padding: 1rem; border-radius: 5px; display: block; margin-top: 0.5rem; white-space: pre-wrap; word-break: break-word;">
-                ${mensaje}
-              </code>
-            </div>
-          </div>
-
-          <div class="info-box" style="margin-top: 2rem; background-color: #fffacd; border-left-color: #f59e0b;">
-            <h3>📍 Información Técnica</h3>
-            <p>
-              <strong>Método de envío:</strong> HTTP POST<br>
-              <strong>Ruta:</strong> /contacto<br>
-              <strong>Procesado por:</strong> req.body (Express middleware)<br>
-              <strong>Validación:</strong> ✅ Completada en el servidor<br>
-              <strong>Timestamp:</strong> ${new Date().toLocaleString()}
-            </p>
-          </div>
+        <div class="messages-list">
+          ${mensajesHtml}
         </div>
 
         <div class="navigation-buttons">
-          <a href="/contacto" class="btn btn-primary">✏️ Enviar Otro Mensaje</a>
+          <a href="/contacto" class="btn btn-primary">✏️ Enviar otro mensaje</a>
           <a href="/" class="btn btn-secondary">🏠 Volver al Inicio</a>
         </div>
       </div>

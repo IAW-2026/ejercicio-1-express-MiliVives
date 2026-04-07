@@ -3,19 +3,26 @@ console.log('✅ Script.js cargado correctamente desde archivos estáticos');
 
 // ===== CONTADOR DE VISITAS =====
 async function cargarContador() {
+    const numeroVisitasEl = document.getElementById('numero-visitas');
+    const mensajeVisitasEl = document.getElementById('mensaje-visitas');
+
+    if (!numeroVisitasEl || !mensajeVisitasEl) {
+        return;
+    }
+
     try {
         const respuesta = await fetch('/api/contador');
         const datos = await respuesta.json();
 
         // Actualizar el contador en la página
-        document.getElementById('numero-visitas').textContent = datos.visitas;
-        document.getElementById('mensaje-visitas').textContent = datos.mensaje;
+        numeroVisitasEl.textContent = datos.visitas;
+        mensajeVisitasEl.textContent = datos.mensaje;
 
         console.log('📊 Contador cargado:', datos.visitas, 'visitas');
     } catch (error) {
         console.error('❌ Error al cargar el contador:', error);
-        document.getElementById('numero-visitas').textContent = 'Error';
-        document.getElementById('mensaje-visitas').textContent = 'No se pudo cargar la información del contador.';
+        numeroVisitasEl.textContent = 'Error';
+        mensajeVisitasEl.textContent = 'No se pudo cargar la información del contador.';
     }
 }
 

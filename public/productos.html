@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - API JSON</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .producto-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .producto-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 0.75rem;
+        }
+
+        .producto-id {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .producto-categoria {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .producto-card h3 {
+            margin: 0.75rem 0;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .producto-card p {
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .producto-descrip {
+            opacity: 0.95;
+            margin-bottom: 1rem !important;
+            font-style: italic;
+        }
+
+        .producto-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .producto-precio {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .producto-stock {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .stock-label {
+            font-size: 0.75rem;
+            opacity: 0.85;
+        }
+
+        .stock-cantidad {
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.1rem;
+            color: #667eea;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background-color: #fed7d7;
+            border-left: 4px solid #fc8181;
+            padding: 1.5rem;
+            border-radius: 8px;
+            color: #c53030;
+            margin: 1rem 0;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .refresh-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <ul>
+                <li><a href="/" class="nav-link">🏠 Inicio</a></li>
+                <li><a href="/acerca" class="nav-link">ℹ️ Acerca</a></li>
+                <li><a href="/contacto" class="nav-link">📬 Contacto</a></li>
+                <li><a href="/encuesta" class="nav-link">❓ Encuesta</a></li>
+                <li><a href="/api/productos" class="nav-link active">📦 Productos</a></li>
+            </ul>
+        </nav>
+
+        <h1>📦 Catálogo de Productos</h1>
+
+        <div class="content">
+            <h2>API JSON de Productos</h2>
+            <p>Esta página obtiene datos desde el servidor mediante una solicitud <strong>fetch</strong> a la API <code>/api/productos</code> y los muestra dinámicamente en el navegador.</p>
+            <p>Objetivo: Practicar con JSON, APIs simuladas y consumo desde el frontend.</p>
+        </div>
+
+        <button class="refresh-btn" onclick="cargarProductos()">🔄 Recargar Productos</button>
+
+        <!-- Contenedor para estadísticas -->
+        <div id="stats-container" class="stats"></div>
+
+        <!-- Contenedor para productos -->
+        <div id="productos-container" class="productos-grid">
+            <div class="loading">
+                <div class="spinner"></div>
+                Cargando productos del servidor...
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <a href="/" class="btn btn-primary">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Función para cargar productos desde la API
+         * Hace una solicitud fetch a /api/productos y muestra los resultados
+         */
+        async function cargarProductos() {
+            const container = document.getElementById('productos-container');
+            
+            try {
+                // Mostrar estado de carga
+                container.innerHTML = `
+                    <div class="loading" style="grid-column: 1 / -1;">
+                        <div class="spinner"></div>
+                        Obteniendo productos del servidor...
+                    </div>
+                `;
+
+                // Hacer la solicitud fetch a la API
+                console.log('📡 Iniciando fetch a /api/productos...');
+                const response = await fetch('/api/productos');
+
+                // Verificar si la respuesta fue exitosa
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+
+                // Parsear la respuesta como JSON
+                const datos = await response.json();
+                console.log('✅ Datos recibidos:', datos);
+
+                // Verificar que tenemos productos
+                if (!datos.productos || datos.productos.length === 0) {
+                    container.innerHTML = '<div class="error">No hay productos disponibles</div>';
+                    return;
+                }
+
+                // Calcular estadísticas
+                const totalProductos = datos.productos.length;
+                const stockTotal = datos.productos.reduce((sum, p) => sum + p.stock, 0);
+                const precio_promedio = (datos.productos.reduce((sum, p) => sum + p.precio, 0) / totalProductos).toFixed(2);
+
+                // Mostrar estadísticas
+                const statsContainer = document.getElementById('stats-container');
+                statsContainer.innerHTML = `
+                    <div class="stat-box">
+                        <div class="stat-number">${totalProductos}</div>
+                        <div class="stat-label">Productos Disponibles</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">${stockTotal}</div>
+                        <div class="stat-label">Unidades en Stock</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$${precio_promedio}</div>
+                        <div class="stat-label">Precio Promedio</div>
+                    </div>
+                `;
+
+                // Generar HTML para cada producto
+                const productosHTML = datos.productos.map(producto => `
+                    <div class="producto-card">
+                        <div class="producto-header">
+                            <div>
+                                <h3>${producto.nombre}</h3>
+                                <span class="producto-categoria">${producto.categoria}</span>
+                            </div>
+                            <span class="producto-id">ID: ${producto.id}</span>
+                        </div>
+                        
+                        <p class="producto-descrip">${producto.descripcion}</p>
+                        
+                        <div class="producto-footer">
+                            <div class="producto-precio">$${producto.precio.toFixed(2)}</div>
+                            <div class="producto-stock">
+                                <span class="stock-label">Stock:</span>
+                                <span class="stock-cantidad">${producto.stock} unidades</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Mostrar los productos en el contenedor
+                container.innerHTML = productosHTML;
+                console.log(`✨ ${totalProductos} productos renderizados en el DOM`);
+
+            } catch (error) {
+                // Manejar errores
+                console.error('❌ Error al obtener productos:', error);
+                container.innerHTML = `
+                    <div class="error" style="grid-column: 1 / -1;">
+                        <strong>Error al cargar los productos</strong><br>
+                        ${error.message}<br>
+                        <small>Verifica que el servidor esté ejecutándose en http://localhost:3000</small>
+                    </div>
+                `;
+            }
+        }
+
+        // Cargar productos cuando la página carga
+        document.addEventListener('DOMContentLoaded', cargarProductos);
+    </script>
+</body>
+</html>

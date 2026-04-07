@@ -33,6 +33,71 @@ app.get('/api/contador', (req, res) => {
   });
 });
 
+// Array simulado de productos
+const productos = [
+  {
+    id: 1,
+    nombre: 'Laptop Pro',
+    descripcion: 'Computadora portátil de alta performance para profesionales',
+    precio: 999.99,
+    categoria: 'Electrónica',
+    stock: 15
+  },
+  {
+    id: 2,
+    nombre: 'Mouse Inalámbrico',
+    descripcion: 'Mouse ergonómico con conexión inalámbrica de 2.4GHz',
+    precio: 29.99,
+    categoria: 'Accesorios',
+    stock: 50
+  },
+  {
+    id: 3,
+    nombre: 'Teclado Mecánico RGB',
+    descripcion: 'Teclado gaming con switches mecánicos y iluminación RGB',
+    precio: 149.99,
+    categoria: 'Accesorios',
+    stock: 20
+  },
+  {
+    id: 4,
+    nombre: 'Monitor LED 27"',
+    descripcion: 'Monitor 4K UHD con panel IPS y soporte VESA',
+    precio: 399.99,
+    categoria: 'Electrónica',
+    stock: 8
+  },
+  {
+    id: 5,
+    nombre: 'Auriculares Bluetooth',
+    descripcion: 'Auriculares inalámbricos con cancelación de ruido activa',
+    precio: 199.99,
+    categoria: 'Audio',
+    stock: 25
+  },
+  {
+    id: 6,
+    nombre: 'Webcam 1080P',
+    descripcion: 'Cámara web Full HD con micrófono integrado',
+    precio: 79.99,
+    categoria: 'Electrónica',
+    stock: 30
+  }
+];
+
+// Ruta API GET para obtener lista de productos
+app.get('/api/productos', (req, res) => {
+  console.log(`📦 API llamada - Se solicitaron ${productos.length} productos`);
+  res.json({
+    cantidad: productos.length,
+    productos: productos
+  });
+});
+
+app.get('/productos', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'productos.html'));
+});
+
 // Servir archivos estáticos desde la carpeta "public"
 app.use(express.static('public'));
 

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta - Tu lenguaje favorito</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <ul>
+                <li><a href="/" class="nav-link">🏠 Inicio</a></li>
+                <li><a href="/acerca" class="nav-link">ℹ️ Acerca</a></li>
+                <li><a href="/contacto" class="nav-link">📬 Contacto</a></li>
+                <li><a href="/encuesta" class="nav-link active">❓ Encuesta</a></li>
+            </ul>
+        </nav>
+
+        <h1>¿Cuál es tu lenguaje favorito?</h1>
+
+        <div class="content">
+            <p>Responde la siguiente pregunta y el servidor mostrará el lenguaje que elegiste.</p>
+        </div>
+
+        <div class="form-container">
+            <form action="/encuesta" method="POST">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lenguaje">¿Cuál es tu lenguaje favorito?</label>
+                    <select id="lenguaje" name="lenguaje" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                        <option value="C#">C#</option>
+                        <option value="Ruby">Ruby</option>
+                        <option value="Go">Go</option>
+                        <option value="C++">C++</option>
+                        <option value="TypeScript">TypeScript</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; cursor: pointer;">
+                    Enviar Respuesta
+                </button>
+            </form>
+        </div>
+
+        <div class="navigation-buttons">
+            <a href="/" class="btn btn-secondary">← Volver al Inicio</a>
+            <a href="/contacto" class="btn btn-secondary">Contacto →</a>
+        </div>
+    </div>
+</body>
+</html>

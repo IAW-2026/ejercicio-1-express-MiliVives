@@ -33,6 +33,23 @@
             </div>
         </div>
 
+        <!-- FRASES ALEATORIAS -->
+        <div class="frases-section">
+            <div class="frases-card">
+                <h2>💬 Frases Motivacionales</h2>
+                <p>Obtén una frase aleatoria del servidor haciendo clic en el botón:</p>
+                <button id="obtener-frase-btn" class="btn btn-primary" style="margin: 1rem 0;">
+                    🎲 Obtener Frase Aleatoria
+                </button>
+                <div id="frase-container" class="frase-display">
+                    <p id="frase-texto">Haz clic en el botón para obtener tu primera frase...</p>
+                    <small id="frase-info" style="color: rgba(255,255,255,0.7); display: block; margin-top: 0.5rem;">
+                        💡 Las frases se obtienen dinámicamente del servidor
+                    </small>
+                </div>
+            </div>
+        </div>
+
         <p>Este proyecto demuestra cómo manejar diferentes rutas en un servidor Express.</p>
         
         <div class="content">
@@ -49,6 +66,7 @@
                 <li>✅ <strong>/contacto</strong> - Formulario de contacto</li>
                 <li>✅ <strong>/encuesta</strong> - Formulario con selección</li>
                 <li>✅ <strong>/productos</strong> - Consumo de API JSON con fetch</li>
+                <li>✅ <strong>/frase</strong> - API que devuelve frases aleatorias</li>
             </ul>
         </div>
         
@@ -56,6 +74,31 @@
             <h3>Prueba la interactividad:</h3>
             <button id="miBoton">Haz clic aquí</button>
             <p id="mensaje"></p>
+        </div>
+
+        <!-- FORMULARIO DE SALUDO PERSONALIZADO -->
+        <div class="saludo-section">
+            <div class="saludo-card">
+                <h3>👋 Saludo Personalizado</h3>
+                <p>Ingresa tu nombre y recibe un saludo personalizado del servidor:</p>
+
+                <form id="saludo-form" class="saludo-form">
+                    <div class="form-group">
+                        <label for="nombre-saludo">Tu nombre:</label>
+                        <input type="text" id="nombre-saludo" name="nombre" placeholder="Escribe tu nombre aquí..." required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="saludo-btn">
+                        🚀 Enviar Saludo
+                    </button>
+                </form>
+
+                <div id="saludo-respuesta" class="saludo-respuesta" style="display: none;">
+                    <div class="respuesta-content">
+                        <p id="saludo-texto"></p>
+                        <small id="saludo-info"></small>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="navigation-buttons">

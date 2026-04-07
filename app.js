@@ -94,8 +94,72 @@ app.get('/api/productos', (req, res) => {
   });
 });
 
+// Array de frases motivacionales aleatorias
+const frasesMotivacionales = [
+  "El éxito es la suma de pequeños esfuerzos repetidos día tras día.",
+  "La única forma de hacer un gran trabajo es amar lo que haces.",
+  "El futuro pertenece a quienes creen en la belleza de sus sueños.",
+  "No importa lo lento que vayas, siempre y cuando no te detengas.",
+  "La creatividad es la inteligencia divirtiéndose.",
+  "El aprendizaje nunca agota la mente.",
+  "La paciencia es amarga, pero su fruto es dulce.",
+  "Cada experto fue alguna vez un principiante.",
+  "El fracaso es solo la oportunidad de comenzar de nuevo de manera más inteligente.",
+  "La mejor manera de predecir el futuro es creándolo.",
+  "El conocimiento es poder, pero la acción es progreso.",
+  "Las grandes cosas nunca vienen de zonas de confort.",
+  "El cambio es la ley de la vida. Aquellos que solo miran al pasado o al presente perderán definitivamente el futuro.",
+  "La perseverancia no es una carrera larga; es muchas carreras cortas una tras otra.",
+  "El optimismo es la fe que conduce al logro."
+];
+
+// Ruta GET para obtener una frase aleatoria
+app.get('/frase', (req, res) => {
+  // Seleccionar una frase aleatoria del array
+  const fraseAleatoria = frasesMotivacionales[Math.floor(Math.random() * frasesMotivacionales.length)];
+
+  console.log(`💬 Frase aleatoria solicitada: "${fraseAleatoria}"`);
+
+  // Responder con JSON
+  res.json({
+    frase: fraseAleatoria,
+    autor: "Frase motivacional",
+    timestamp: new Date().toISOString(),
+    total_frases: frasesMotivacionales.length
+  });
+});
+
 app.get('/productos', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'productos.html'));
+});
+
+// Nueva ruta API POST para saludo personalizado
+app.post('/api/saludo', (req, res) => {
+  const { nombre } = req.body;
+
+  // Validar que se proporcionó un nombre
+  if (!nombre || nombre.trim() === '') {
+    return res.status(400).json({
+      success: false,
+      error: 'Nombre requerido',
+      mensaje: 'Por favor, proporciona tu nombre para recibir un saludo personalizado.'
+    });
+  }
+
+  // Crear saludo personalizado
+  const nombreLimpio = nombre.trim();
+  const saludo = `¡Hola, ${nombreLimpio}! 👋 Bienvenido a nuestro sitio web. Esperamos que tengas una excelente experiencia navegando por nuestras páginas.`;
+
+  console.log(`👋 Saludo personalizado solicitado para: "${nombreLimpio}"`);
+
+  // Responder con JSON
+  res.json({
+    success: true,
+    saludo: saludo,
+    nombre_recibido: nombreLimpio,
+    timestamp: new Date().toISOString(),
+    mensaje_adicional: `Tu nombre tiene ${nombreLimpio.length} caracteres.`
+  });
 });
 
 // Servir archivos estáticos desde la carpeta "public"
